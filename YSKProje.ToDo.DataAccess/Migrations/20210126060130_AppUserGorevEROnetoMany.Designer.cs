@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 
 namespace YSKProje.ToDo.DataAccess.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20210126060130_AppUserGorevEROnetoMany")]
+    partial class AppUserGorevEROnetoMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,22 +122,6 @@ namespace YSKProje.ToDo.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("YSKProje.ToDo.Entities.Concrete.Aciliyet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Tanim")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Aciliyetler");
-                });
-
             modelBuilder.Entity("YSKProje.ToDo.Entities.Concrete.AppRole", b =>
                 {
                     b.Property<int>("Id")
@@ -193,8 +179,7 @@ namespace YSKProje.ToDo.DataAccess.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -217,8 +202,7 @@ namespace YSKProje.ToDo.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -252,9 +236,6 @@ namespace YSKProje.ToDo.DataAccess.Migrations
                     b.Property<string>("Aciklama")
                         .HasColumnType("ntext");
 
-                    b.Property<int>("AciliyetId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Ad")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
@@ -270,38 +251,9 @@ namespace YSKProje.ToDo.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AciliyetId");
-
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Gorevler");
-                });
-
-            modelBuilder.Entity("YSKProje.ToDo.Entities.Concrete.Rapor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Detay")
-                        .HasColumnType("ntext");
-
-                    b.Property<int>("GorevId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tanim")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GorevId");
-
-                    b.ToTable("Raporlar");
+                    b.ToTable("Calismalar");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -357,25 +309,9 @@ namespace YSKProje.ToDo.DataAccess.Migrations
 
             modelBuilder.Entity("YSKProje.ToDo.Entities.Concrete.Gorev", b =>
                 {
-                    b.HasOne("YSKProje.ToDo.Entities.Concrete.Aciliyet", "Aciliyet")
-                        .WithMany("Gorevler")
-                        .HasForeignKey("AciliyetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("YSKProje.ToDo.Entities.Concrete.AppUser", "AppUser")
                         .WithMany("Gorevler")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
-            modelBuilder.Entity("YSKProje.ToDo.Entities.Concrete.Rapor", b =>
-                {
-                    b.HasOne("YSKProje.ToDo.Entities.Concrete.Gorev", "Gorev")
-                        .WithMany("Raporlar")
-                        .HasForeignKey("GorevId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,7 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=(localdb)\\mssqllocaldb; database=udemyBlogToDo; user id=sa; password=1;");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-6POO8UH\\SQLEXPRESS;Initial Catalog=udemyBlogToDo;Integrated Security=True");
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -20,12 +20,19 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
-            modelBuilder.ApplyConfiguration(new CalismaMap());
+            modelBuilder.ApplyConfiguration(new GorevMap());
+            modelBuilder.ApplyConfiguration(new RaporMap());
+            modelBuilder.ApplyConfiguration(new AciliyetMap());
+            modelBuilder.ApplyConfiguration(new AppUserMap());
+
+
 
             base.OnModelCreating(modelBuilder);
         }
 
       
-        public DbSet<Gorev> Calismalar { get; set; }
+        public DbSet<Gorev> Gorevler { get; set; }
+        public DbSet<Aciliyet> Aciliyetler { get; set; }
+        public DbSet<Rapor> Raporlar { get; set; }
     }
 }

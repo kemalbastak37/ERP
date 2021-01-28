@@ -1,6 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 using YSKProje.ToDo.Entities.Interfaces;
 
 namespace YSKProje.ToDo.Entities.Concrete
@@ -12,5 +11,14 @@ namespace YSKProje.ToDo.Entities.Concrete
         public string Aciklama { get; set; }
         public bool Durum { get; set; }
         public DateTime OlusturulmaTarih { get; set; }
+
+        public int AciliyetId { get; set; }
+        public Aciliyet Aciliyet { get; set; }
+
+        public int? AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
+
+
+        public List<Rapor> Raporlar { get; set; }
     }
 }
