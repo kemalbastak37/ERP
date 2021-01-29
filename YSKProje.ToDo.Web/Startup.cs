@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using YSKProje.ToDo.Business.Concrete;
 using YSKProje.ToDo.Business.Interfaces;
+using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using YSKProje.ToDo.DataAccess.Interfaces;
+using YSKProje.ToDo.Entities.Concrete;
 
 namespace YSKProje.ToDo.Web
 {
@@ -18,9 +20,15 @@ namespace YSKProje.ToDo.Web
             services.AddScoped<IGorevService, GorevManager>();
             services.AddScoped<IAciliyetService, AciliyetManager>();
             services.AddScoped<IRaporService, RaporManager>();
+
             services.AddScoped<IGorevDal, EfGorevRepository>();
             services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
             services.AddScoped<IRaporDal, EfRaporRepository>();
+
+            services.AddDbContext<TodoContext>();
+            services.AddIdentity<AppUser, AppRole>()
+                    .AddEntityFrameworkStores<TodoContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -37,7 +45,14 @@ namespace YSKProje.ToDo.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
+                    );
+                endpoints.MapControllerRoute(
+                    name:"default",
+                    pattern:"{controller=Home}/{action=Index}/{id?}"
+                    );
             });
         }
 }
