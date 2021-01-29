@@ -35,5 +35,23 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
+        public IActionResult EkleAciliyet()
+        {
+            return View(new AciliyetAddViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult EkleAciliyet(AciliyetAddViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                _aciliyetService.Kaydet(new Aciliyet()
+                {
+                    Tanim = model.Tanim
+                });
+                return RedirectToPage("Index");
+            }
+            return View();
+        }
     }
 }
